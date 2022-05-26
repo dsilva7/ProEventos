@@ -4,6 +4,8 @@ using ProEventos.Domain;
 using ProEventos.Persistence.Contexto;
 using ProEventos.Application.Contratos;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace ProEventos.API.Controllers;
 
@@ -11,13 +13,7 @@ namespace ProEventos.API.Controllers;
 [Route("api/[controller]")]
 public class EventsController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-
-
-
+   
     private readonly IEventosService _eventoService;
 
     public EventsController(IEventosService eventoService)

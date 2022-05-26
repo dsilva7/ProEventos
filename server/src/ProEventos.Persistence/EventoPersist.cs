@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProEventos.Domain;
 using ProEventos.Persistence.Contexto;
@@ -12,6 +14,8 @@ namespace ProEventos.Persistence
         public EventoPersist(ProEventosContext context)
         {
             _context = context;
+            //se todos forem get. se não faz um por um colocando .AsNoTracking
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
 
         }
 

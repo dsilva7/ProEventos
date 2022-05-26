@@ -75,14 +75,14 @@ namespace ProEventos.Persistence.Migrations
                 {
                     PalestranteId = table.Column<int>(type: "INTEGER", nullable: false),
                     EventoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EventosId = table.Column<int>(type: "INTEGER", nullable: false)
+                    
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PalestrantesEventos", x => new { x.EventoId, x.PalestranteId });
                     table.ForeignKey(
                         name: "FK_PalestrantesEventos_Events_EventosId",
-                        column: x => x.EventosId,
+                        column: x => x.EventoId,
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -100,8 +100,8 @@ namespace ProEventos.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    URL = table.Column<string>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "TEXT", nullable: true),
+                    URL = table.Column<string>(type: "TEXT", nullable: true),
                     EventoId = table.Column<int>(type: "INTEGER", nullable: true),
                     PalestranteId = table.Column<int>(type: "INTEGER", nullable: true)
                 },

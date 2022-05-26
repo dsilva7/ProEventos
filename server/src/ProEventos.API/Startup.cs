@@ -25,8 +25,9 @@ namespace ProEventos.API
             );
             services.AddControllers();
             services.AddScoped<IEventosService, EventoService>();
-            services.AddScoped<IEventoPersist, EventoPersist>();
             services.AddScoped<IGeralPersist, GeralPersist>();
+            services.AddScoped<IEventoPersist, EventoPersist>();
+
             services.AddCors();
             services.AddSwaggerGen(c =>
             {
@@ -50,11 +51,9 @@ namespace ProEventos.API
 
             app.UseAuthorization();
 
-            app.UseCors(x => x.AllowAnyHeader().
-            AllowAnyMethod().
-            AllowAnyOrigin()
-
-            );
+            app.UseCors(x => x.AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin());
 
             app.UseEndpoints(endpoints =>
             {
