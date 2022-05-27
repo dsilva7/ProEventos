@@ -1,5 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
+import { Evento } from '../models/Evento';
+import { EventoService } from '../services/evento.service';
 
 @Component({
   selector: 'app-events',
@@ -7,26 +10,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent implements OnInit {
-  public events: any = [];
-  public eventsFiltrados: any = [];
+  modalRef?: BsModalRef;
+  public events: Evento[] = [];
+  public eventsFiltrados: Evento[] = [];
 
-  widthImg: number = 100;
-  marginImg: number = 2;
-  showImage: boolean = true;
-  private _filterList: string = '';
+  public widthImg = 100;
+  public marginImg = 2;
+  public showImage = true;
+  private filterListado = '';
 
   public get filterList(): string {
-    return this._filterList;
+    return this.filterListado;
   }
 
   public set filterList(value: string) {
-    this._filterList = value;
+    this.filterListado = value;
     this.eventsFiltrados = this.filterList
       ? this.filtrarEvents(this.filterList)
       : this.events;
   }
 
-  filtrarEvents(filtrarPor: string): any {
+  public filtrarEvents(filtrarPor: string): Evento[] {
     filtrarPor = filtrarPor.toLocaleLowerCase();
     return this.events.filter(
       (event: { tema: string; local: string }) =>
@@ -35,22 +39,43 @@ export class EventsComponent implements OnInit {
     );
   }
 
-  constructor(private http: HttpClient) {}
+  /**
+   *
+   */
+  constructor(
+    private eventoService: EventoService,
+    private modalService: BsModalService,
+    private toastr: ToastrService
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getEvents();
   }
 
-  hideImage() {
+  public hideImage(): void {
     this.showImage = !this.showImage;
   }
 
   public getEvents(): void {
-    this.http.get('http://localhost:5001/api/events').subscribe(
-      response => {this.events = response;
+    this.eventoService.getEventos().subscribe({
+      next: (eventosResp: Evento[]) => {
+        this.events = eventosResp;
         this.eventsFiltrados = this.events;
       },
-      (error) => console.log(error)
-    );
+      error: (error: any) => console.log(error),
+    });
+  }
+
+  openModal(template: TemplateRef<any>): void {
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+  }
+
+  confirm(): void {
+    this.modalRef?.hide();
+    this.toastr.success('O Evento foi deletado com Sucesso', 'Deletado!');
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
   }
 }
