@@ -10,17 +10,30 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EventsComponent } from './events/events.component';
-import { SpeakerComponent } from './speaker/speaker.component';
+import { EventsComponent } from './componentes/events/events.component';
+import { SpeakerComponent } from './componentes/speaker/speaker.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NavComponent } from './nav/nav.component';
+import { NavComponent } from './shared/nav/nav.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { EventoService } from './services/evento.service';
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
-
+import { ContatosComponent } from './componentes/contatos/contatos.component';
+import { DashboardsComponent } from './componentes/dashboards/dashboards.component';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
+import { TituloComponent } from './shared/titulo/Titulo.component';
 
 @NgModule({
-  declarations: [AppComponent, EventsComponent, SpeakerComponent, NavComponent, DateTimeFormatPipe],
+  declarations: [
+    AppComponent,
+    EventsComponent,
+    SpeakerComponent,
+    NavComponent,
+    DateTimeFormatPipe,
+    ContatosComponent,
+    DashboardsComponent,
+    PerfilComponent,
+    TituloComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,14 +48,12 @@ import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-      progressBar: true
+      progressBar: true,
     }),
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
-  providers: [
-    EventoService
-  ],
+  providers: [EventoService],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
